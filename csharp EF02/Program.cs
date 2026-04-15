@@ -61,7 +61,6 @@ namespace EF02
             Console.WriteLine("Attendee with Badge added.");
             #endregion
 
-
         }
     }
 }
