@@ -135,6 +135,31 @@ namespace EF02
 
             #endregion
 
+            #region Question 6: Retrieve Events with Attendees
+
+           
+
+            var eventsWithAttendees = context.Events
+                .Select(e => new
+                {
+                    e.Title,
+                    Attendees = e.Registrations.Select(r => r.Attendee.FullName)
+                })
+                .ToList();
+
+            foreach (var e in eventsWithAttendees)
+            {
+                Console.WriteLine($"Event: {e.Title}");
+                foreach (var name in e.Attendees)
+                {
+                    Console.WriteLine($" - {name}");
+                }
+            }
+
+            Console.WriteLine(" Data retrieved successfully");
+            Console.WriteLine("=== Question 6 END ===\n");
+
+            #endregion
 
 
 
