@@ -92,7 +92,35 @@ namespace EF02
             #endregion
 
 
-            
+            #region Question 4: Event → Sessions (1-to-Many)
+
+
+            var session1 = new Session
+            {
+                Title = "AI Workshop",
+                EventId = event1.EventId
+            };
+
+            var session2 = new Session
+            {
+                Title = "Machine Learning Basics",
+                EventId = event1.EventId
+            };
+
+            context.Sessions.AddRange(session1, session2);
+            context.SaveChanges();
+
+            Console.WriteLine(" Sessions added to Event");
+            Console.WriteLine("=== Question 4 END ===\n");
+
+            #endregion
+
+
+
+
+
+
+
 
         }
     }
