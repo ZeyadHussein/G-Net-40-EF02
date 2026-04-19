@@ -9,8 +9,9 @@ namespace EF02
         {
             using var context = new AppDbContext();
 
-            #region Question 1: Create Organizer with Profile (1-to-1)
-            // create orgainzer         
+            #region Question 1: Organizer with Profile (1-to-1)
+
+
             var organizer = new Organizer
             {
                 Name = "Tech Corp",
@@ -27,8 +28,72 @@ namespace EF02
             context.Organizers.Add(organizer);
             context.SaveChanges();
 
-            Console.WriteLine("Organizer with Profile added.");
+            Console.WriteLine(" Organizer with Profile added successfully");
+            Console.WriteLine("=== Question 1 END ===\n");
+
             #endregion
+
+
+            #region Question 2: Attendee with Badge (1-to-1)
+
+
+            var attendee = new Attendee
+            {
+                FullName = "Ahmed Ali",
+                Email = "ahmed@gmail.com",
+                Street = "Nasr City",
+                City = "Cairo",
+                Country = "Egypt",
+                PostalCode = "12345",
+                Badge = new Badge
+                {
+                    BadgeNumber = "B-1001",
+                    IssuedDate = DateTime.Now,
+                    Tier = "VIP"
+                }
+            };
+
+            context.Attendees.Add(attendee);
+            context.SaveChanges();
+
+            Console.WriteLine(" Attendee with Badge added successfully");
+            Console.WriteLine("=== Question 2 END ===\n");
+
+            #endregion
+
+
+            #region Question 3: Organizer → Events (1-to-Many)
+
+
+            var event1 = new Event
+            {
+                Title = "AI Conference",
+                Description = "AI Event",
+                StartDate = DateTime.Now,
+                MaxAttendees = 100,
+                OrganizerId = organizer.OrganizerId
+            };
+
+            var event2 = new Event
+            {
+                Title = "Web Summit",
+                Description = "Web Event",
+                StartDate = DateTime.Now,
+                MaxAttendees = 200,
+                OrganizerId = organizer.OrganizerId
+            };
+
+            context.Events.AddRange(event1, event2);
+            context.SaveChanges();
+
+            Console.WriteLine(" Events added to Organizer");
+            Console.WriteLine("=== Question 3 END ===\n");
+
+            #endregion
+
+
+            
+
         }
     }
 }

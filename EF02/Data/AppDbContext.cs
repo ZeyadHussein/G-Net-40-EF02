@@ -11,10 +11,11 @@ namespace EF02.Data
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Attendee> Attendees { get; set; }
         public DbSet<Badge> Badges { get; set; }
+        public DbSet<Registration> Registrations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // ✅ FIXED CONNECTION STRING
+            
             optionsBuilder.UseSqlServer("Server=.;Database=EventHubDB;Trusted_Connection=True;Encrypt=False;");
         }
 
@@ -51,6 +52,21 @@ namespace EF02.Data
                 .HasForeignKey(s => s.EventId)
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
+            #region Many-to-Many: Attendee ↔ Event
+            modelBuilder.Entity<Registration>()
+                .HasKey(r => new { r.AttendeeId, r.EventId });
+
+            modelBuilder.Entity<Registration>()
+                .HasOne(r => r.Attendee)
+                .WithMany(a => a.Registrations)
+                .HasForeignKey(r => r.AttendeeId);
+
+            modelBuilder.Entity<Registration>()
+                .HasOne(r => r.Event)
+                .WithMany(e => e.Registrations)
+                .HasForeignKey(r => r.EventId);
+            #endregion
+
         }
     }
 }

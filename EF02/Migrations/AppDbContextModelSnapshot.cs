@@ -178,6 +178,27 @@ namespace EF02.Migrations
                     b.ToTable("Profiles");
                 });
 
+            modelBuilder.Entity("EF02.Models.Registration", b =>
+                {
+                    b.Property<int>("AttendeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("AttendeeId", "EventId");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Registrations");
+                });
+
             modelBuilder.Entity("EF02.Models.Session", b =>
                 {
                     b.Property<int>("SessionId")
@@ -233,6 +254,25 @@ namespace EF02.Migrations
                     b.Navigation("Organizer");
                 });
 
+            modelBuilder.Entity("EF02.Models.Registration", b =>
+                {
+                    b.HasOne("EF02.Models.Attendee", "Attendee")
+                        .WithMany("Registrations")
+                        .HasForeignKey("AttendeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EF02.Models.Event", "Event")
+                        .WithMany("Registrations")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Attendee");
+
+                    b.Navigation("Event");
+                });
+
             modelBuilder.Entity("EF02.Models.Session", b =>
                 {
                     b.HasOne("EF02.Models.Event", "Event")
@@ -248,10 +288,14 @@ namespace EF02.Migrations
                 {
                     b.Navigation("Badge")
                         .IsRequired();
+
+                    b.Navigation("Registrations");
                 });
 
             modelBuilder.Entity("EF02.Models.Event", b =>
                 {
+                    b.Navigation("Registrations");
+
                     b.Navigation("Sessions");
                 });
 

@@ -18,5 +18,6 @@ namespace EF02.Models
         public string Country { get; set; }
         public string PostalCode { get; set; }
         public Badge Badge { get; set; }
+        public ICollection<Registration> Registrations { get; set; }
     }
 }
