@@ -116,6 +116,26 @@ namespace EF02
             #endregion
 
 
+            #region Question 5: Many-to-Many (Registration)
+
+
+            var registration = new Registration
+            {
+                AttendeeId = attendee.AttendeeId,
+                EventId = event1.EventId,
+                RegistrationDate = DateTime.Now,
+                Note = "Looking forward to it!"
+            };
+
+            context.Registrations.Add(registration);
+            context.SaveChanges();
+
+            Console.WriteLine(" Attendee registered to Event");
+            Console.WriteLine("=== Question 5 END ===\n");
+
+            #endregion
+
+
 
 
 
